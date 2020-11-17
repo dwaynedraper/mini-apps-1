@@ -14,20 +14,49 @@ let board = Array(9);
   MODEL
 ************************************************* */
 
-
+const currentPlayer = 'X';
 const playerX = [];
-const playerY = [];
+const playerO = [];
 const board = [];
 
 /* *************************************************
   CONTROLLER
 ************************************************* */
 
-let checkWinner = function(currentPlayer) {
-  return currentPlayer.every(board.includes)
+const updateSquare = function()
+
+const isWinner = function(currentPlayer) {
+  return winningCombos.some((win) => {
+    return win.every((letter) => {
+      return currentPlayer.includes(letter)
+    })
+  })
+}
+
+const togglePlayer = function() {
+  if (currentPlayer === 'X') {
+    currentPlayer = 'Y';
+  } else {
+    currentPlayer = 'X';
+  }
 }
 
 /* *************************************************
   VIEW
 ************************************************* */
 
+
+
+
+// let array = [1, 2, 3];
+// undefined
+// let currArray = array;
+// undefined
+// currArray;
+// (3) [1, 2, 3]
+// array = [3, 5, 7];
+// (3) [3, 5, 7]
+// currArray;
+// (3) [1, 2, 3]
+// array;
+// (3) [3, 5, 7]
