@@ -4,14 +4,9 @@
 
 let winningCombos = [[0,1,2],[0,3,5],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,7,8]];
 
-/* *************************************************
-  MAIN
-************************************************* */
-
-let board = Array(9);
 
 /* *************************************************
-  MODEL
+MODEL
 ************************************************* */
 
 const currentPlayer = 'X';
@@ -20,10 +15,24 @@ const playerO = [];
 const board = [];
 
 /* *************************************************
-  CONTROLLER
+CONTROLLER
 ************************************************* */
 
-const updateSquare = function()
+const updateSquare = function(e) {
+  if (currentPlayer === 'X') {
+    e.target.innerText = 'X'
+  } else {
+    e.target.innerText = 'O'
+  }
+};
+
+const updatePlayerArray = function(e) {
+  if (currentPlayer === 'X') {
+    playerX.push(e.target.id)
+  } else {
+    playerO.push(e.target.id)
+  }
+}
 
 const isWinner = function(currentPlayer) {
   return winningCombos.some((win) => {
@@ -35,16 +44,27 @@ const isWinner = function(currentPlayer) {
 
 const togglePlayer = function() {
   if (currentPlayer === 'X') {
-    currentPlayer = 'Y';
+    currentPlayer = 'O';
   } else {
     currentPlayer = 'X';
   }
 }
 
+const handleClick = function(e) {
+  updateSquare(e);
+  updatePlayerArray(e);
+  togglePlayer();
+}
+
 /* *************************************************
-  VIEW
+VIEW
 ************************************************* */
 
+/* *************************************************
+  MAIN
+************************************************* */
+
+document.querySelectorAll('#myTable td').forEach((e) => e.addEventListener('click', handleClick(e)))
 
 
 
