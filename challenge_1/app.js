@@ -9,7 +9,7 @@ let winningCombos = [[0,1,2],[0,3,5],[0,4,8],[1,4,7],[2,4,6],[2,5,8],[3,4,5],[6,
 MODEL
 ************************************************* */
 
-const currentPlayer = 'X';
+let currentPlayer = 'X';
 const playerX = [];
 const playerO = [];
 const board = [];
@@ -64,7 +64,16 @@ VIEW
   MAIN
 ************************************************* */
 
-document.querySelectorAll('#myTable td').forEach((e) => e.addEventListener('click', handleClick(e)))
+document.querySelectorAll('#myTable td').forEach((e) => e.addEventListener('click', function(e) {
+  updateSquare(e);
+  updatePlayerArray(e);
+  if (isWinner(currentPlayer)) {
+    document.getElementById('gamestatus').innertext('Congratulations. Player' + currentPlayer + ' won the game!!')
+  } else {
+    togglePlayer();
+    document.getElementById('gamestatus').innertext('It is Player ' + currentPlayer + '\'s turn.')
+  }
+}))
 
 
 
