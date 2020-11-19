@@ -10,9 +10,9 @@ MODEL
 ************************************************* */
 
 let currentPlayer = 'X';
-const playerX = [];
-const playerO = [];
-const board = new Array(9);
+let playerX = [];
+let playerO = [];
+let board = new Array(9);
 
 /* *************************************************
 CONTROLLER
@@ -63,7 +63,13 @@ const updateSquare = function(e) {
     e.target.innerText = 'O'
   }
 };
-
+const resetSquares = function() {
+  console.log('running')
+  let squares = document.querySelectorAll('td');
+  for (square of squares) {
+    square.innerText = ''
+  }
+}
 // const updateView = function(winner) {
 //   if (winner) {
 //     document.getElementById()
@@ -82,7 +88,7 @@ document.querySelectorAll('#myTable td').forEach((e) => e.addEventListener('clic
     addMoveToBoard(e);
     updatePlayerArray(e);
     if (isWinner(currentPlayer)) {
-      document.getElementById('gamestatus').innerText = 'Congratulations. Player' + currentPlayer + ' won the game!!';
+      document.getElementById('gamestatus').innerText = 'Congratulations. Player ' + currentPlayer + ' won the game!!';
     } else {
       togglePlayer();
       document.getElementById('gamestatus').innerText = 'It is Player ' + currentPlayer + '\'s turn.';
@@ -91,6 +97,14 @@ document.querySelectorAll('#myTable td').forEach((e) => e.addEventListener('clic
     document.getElementById('gamestatus').innerText = 'It is Player' + currentPlayer + '\'s turn.';
   }
 }))
+document.getElementById('reset').addEventListener('click', function(e) {
+  resetSquares();
+  playerO = [];
+  playerX = [];
+  for (let item of board) {
+    item = undefined;
+  }
+})
 
 //document.getElementById('gamestatus').innerText =
 
