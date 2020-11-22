@@ -4,3 +4,11 @@ Beth Jr.,Johnson,San Mateo,Pacifica,Manager,2900000
 Smitty,Won,San Mateo,Redwood City,Sales Person,4800000
 Allen,Price,San Mateo,Burlingame,Sales Person,2500000
 Beth,Johnson,San Francisco,San Francisco,Broker/Sales Person,7500000
+
+//children won't be part of the fields list
+//find children and splice the children OR copy a slice without it
+//loop through keys on each person and create a line
+//for all but last character add a comma, then add a newline character
+//then add that line to the bigger results var
+//recursively go through the next child/person
+//return end results
