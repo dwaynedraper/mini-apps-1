@@ -7,8 +7,14 @@ Beth,Johnson,San Francisco,San Francisco,Broker/Sales Person,7500000
 
 //children won't be part of the fields list
 //find children and splice the children OR copy a slice without it
+//this will allow recursion to get all other properties for each line
+//and children is still there to recurse on
 //loop through keys on each person and create a line
 //for all but last character add a comma, then add a newline character
 //then add that line to the bigger results var
 //recursively go through the next child/person
+//check for children
+//if children recurse
 //return end results
+
+// How do I ignore children

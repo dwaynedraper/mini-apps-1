@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const port = 3000;
-const utils = require('./utils/utils.js')
+const utils = require('./utils/utils.js');
+const multer = require('multer');
+const upload = multer({dest:'uploads/'})
 
 app.use(express.static('client'))
 app.use(bodyParser.json());
@@ -13,6 +15,14 @@ app.post('/', (req, res) => {
   let csv = utils.convertToCSV(json);
   res.send(csv);
 });
+
+// app.post('/', upload.single('json'), (req, res) => {
+//   try {
+//     res.send(req.file);
+//   } catch(err) {
+//     res.send(400);
+//   }
+// });
 
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}.`)
