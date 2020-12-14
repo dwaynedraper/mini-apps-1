@@ -4,8 +4,9 @@
     <title>Mini App - CSV Server</title>
   </head>
   <body>
-    <form method="POST" action="/" enctype='application/json'>
-      <textarea name="submitData" id="submitData" rows="12" cols="100"></textarea>
+    <form method="POST" action="/" enctype='multipart/form-data'>
+      <label>Select a JSON file to upload:</label>
+      <input type="file" id="jsonFile" name="jsonFile">
       <input type="submit" value="submit">
     </form>
     <script src="app.js"></script>
