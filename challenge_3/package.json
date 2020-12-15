@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
-    "compile": "babel . --out-dir public --presets @babel/preset-react --ignore node_modules,compiled --source-maps inline --watch"
+    "compile": "./node_modules/.bin/babel client --out-dir public --presets @babel/preset-react --source-maps inline --watch"
   },
   "author": "",
   "license": "ISC",
@@ -15,8 +15,6 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-react": "^7.12.10",
     "express": "^4.17.1",
-    "nodemon": "^2.0.6",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "nodemon": "^2.0.6"
   }
 }
