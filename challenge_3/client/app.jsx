@@ -1,17 +1,17 @@
 function Checkout(props) {
   return  (
-  <div>
-    <h1>This is checkout</h1>
-    <h2>Click the button already fool!</h2>
-    <button onClick={props.handleOnClick}>Checkout</button>
-  </div>
+    <div>
+      <h1>This is checkout</h1>
+      <h2>Click the button already fool!</h2>
+      <button onClick={props.goToAccount}>Checkout</button>
+    </div>
   )
 }
 function Account(props) {
   return (
     <div>
       <h1>This is account creation</h1>
-      <form onSubmit={props.handleSubmit}>
+      <form onSubmit={props.goToShipping}>
       <label htmlFor="username">Username:</label>
       <input
         type='username'
@@ -38,16 +38,87 @@ function Account(props) {
         name='hidden'
         value={'Shipping'}
       />
-      <button name='Shipping' onClick={props.handleSubmit}>Create Account</button>
+      <button onClick={props.goToShipping}>Create Account</button>
       </form>
     </div>
   )
 }
 function Shipping(props) {
-  return <h1>This is shipping details</h1>
+  return (
+    <div>
+      <h1>Please enter your shipping address.</h1>
+      <h4>We promise not to mail you a bomb.</h4>
+      <form onSubmit={props.goToShipping}>
+        <label htmlFor="address1">Address Line 1:</label>
+        <input
+          type='address1'
+          name='address1'
+          value={props.address1}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="address2">Address Line 2:</label>
+        <input
+          type='address2'
+          name='address2'
+          value={props.address2}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="city">City:</label>
+        <input
+          type='city'
+          name='city'
+          value={props.city}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="state">State:</label>
+        <input
+          type='state'
+          name='state'
+          value={props.state}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="zip">Zip Code:</label>
+        <input
+          type='zip'
+          name='zip'
+          value={props.zip}
+          onChange={props.handleChange}
+        />
+        <button onClick={props.goToCreditCard}>Checkout</button>
+      </form>
+    </div>
+  )
 }
 function CreditCard(props) {
-  return <h1>This is where I take your damn money!</h1>
+  return (
+    <div>
+      <h1>This is where I take your damn money!</h1>
+      <form>
+        <label htmlFor="creditCard">Credit Card No.:</label>
+        <input
+          type='creditCard'
+          name='creditCard'
+          value={props.creditCard}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="exp">Exp. Date:</label>
+        <input
+          type='exp'
+          name='exp'
+          value={props.exp}
+          onChange={props.handleChange}
+        />
+        <label htmlFor="cvv">CVV Code:</label>
+        <input
+          type='cvv'
+          name='cvv'
+          value={props.cvv}
+          onChange={props.handleChange}
+        />
+        <button onClick={props.goToSummary}>Checkout</button>
+      </form>
+    </div>
+  )
 }
 function Summary(props) {
   return <h1>This is where the summary is</h1>
@@ -71,15 +142,38 @@ class App extends React.Component {
       exp: '',
       cvv: ''
     }
-    this.handleOnClick = this.handleOnClick.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.goToAccount = this.goToAccount.bind(this);
+    this.goToShipping = this.goToShipping.bind(this);
+    this.goToCreditCard = this.goToCreditCard.bind(this);
+    this.goToSummary = this.goToSummary.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-  handleOnClick(e) {
+  goToAccount(e) {
     e.preventDefault();
-    console.log('handleOnClick function was fired')
+    console.log('gotoaccount function was fired')
     this.setState({
       currView: 'Account'
+    });
+  }
+  goToShipping(e) {
+    e.preventDefault();
+    console.log('gotoshipping function was fired')
+    this.setState({
+      currView: 'Shipping'
+    });
+  }
+  goToCreditCard(e) {
+    e.preventDefault();
+    console.log('gotocreditcard function was fired')
+    this.setState({
+      currView: 'CreditCard'
+    });
+  }
+  goToSummary(e) {
+    e.preventDefault();
+    console.log('gotosummary function was fired')
+    this.setState({
+      currView: 'Summary'
     });
   }
 
@@ -87,21 +181,15 @@ class App extends React.Component {
     this.setState({[e.target.name]: e.target.value});
   }
 
-  handleSubmit(e) {
-    console.log('handleSubmit function was fired')
-    e.preventDefault();
-    this.setState({currView: e.target.name});
-  }
-
   render() {
     if (this.state.currView === 'Checkout') {
       return (
-        <Checkout handleOnClick={this.handleOnClick} />
+        <Checkout goToAccount={this.goToAccount} />
       )
     } else if (this.state.currView === 'Account') {
       return (
         <Account
-          handleSubmit={this.handleSubmit}
+          goToShipping={this.goToShipping}
           handleChange={this.handleChange}
           username={this.state.username}
           email={this.state.email}
@@ -111,19 +199,33 @@ class App extends React.Component {
     } else if (this.state.currView === 'Shipping') {
       return (
         <div>
-          <Account handleSubmit={this.handleSubmit}/>
+          <Shipping
+            goToCreditCard={this.goToCreditCard}
+            handleChange={this.handleChange}
+            address1={this.state.address1}
+            address2={this.state.address2}
+            city={this.state.city}
+            state={this.state.state}
+            zip={this.state.zip}
+          />
         </div>
       )
     } else if (this.state.currView === 'CreditCard') {
       return (
         <div>
-          <Account handleSubmit={this.handleSubmit}/>
+          <CreditCard
+          goToSummary={this.goToSummary}
+          handleChange={this.handleChange}
+          creditCard={this.state.creditCard}
+          exp={this.state.exp}
+          cvv={this.state.cvv}
+          />
         </div>
       )
     } else if (this.state.currView === 'Summary') {
       return (
         <div>
-          <Account handleSubmit={this.handleSubmit}/>
+          <Summary/>
         </div>
       )
     }
