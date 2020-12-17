@@ -10,7 +10,7 @@ function Checkout(props) {
 function Account(props) {
   return (
     <div>
-      <h1>This is account creation</h1>
+      <h1>Please create a user account</h1>
       <form onSubmit={props.goToShipping}>
       <label htmlFor="username">Username:</label>
       <input
@@ -19,6 +19,7 @@ function Account(props) {
         value={props.username}
         onChange={props.handleChange}
       />
+      <br/>
       <label htmlFor="email">Email:</label>
       <input
         type='email'
@@ -26,6 +27,7 @@ function Account(props) {
         value={props.email}
         onChange={props.handleChange}
       />
+      <br/>
       <label htmlFor="password">Password:</label>
       <input
         type='password'
@@ -33,12 +35,14 @@ function Account(props) {
         value={props.password}
         onChange={props.handleChange}
       />
+      <br/>
       <input
         type='hidden'
         name='hidden'
         value={'Shipping'}
       />
-      <button onClick={props.goToShipping}>Create Account</button>
+      <br/>
+      <button onClick={props.goToShipping}>Next Step</button>
       </form>
     </div>
   )
@@ -56,6 +60,7 @@ function Shipping(props) {
           value={props.address1}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="address2">Address Line 2:</label>
         <input
           type='address2'
@@ -63,6 +68,7 @@ function Shipping(props) {
           value={props.address2}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="city">City:</label>
         <input
           type='city'
@@ -70,6 +76,7 @@ function Shipping(props) {
           value={props.city}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="state">State:</label>
         <input
           type='state'
@@ -77,6 +84,7 @@ function Shipping(props) {
           value={props.state}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="zip">Zip Code:</label>
         <input
           type='zip'
@@ -84,7 +92,8 @@ function Shipping(props) {
           value={props.zip}
           onChange={props.handleChange}
         />
-        <button onClick={props.goToCreditCard}>Checkout</button>
+        <br/>
+        <button onClick={props.goToCreditCard}>Next Step</button>
       </form>
     </div>
   )
@@ -101,6 +110,7 @@ function CreditCard(props) {
           value={props.creditCard}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="exp">Exp. Date:</label>
         <input
           type='exp'
@@ -108,6 +118,7 @@ function CreditCard(props) {
           value={props.exp}
           onChange={props.handleChange}
         />
+        <br/>
         <label htmlFor="cvv">CVV Code:</label>
         <input
           type='cvv'
@@ -115,13 +126,31 @@ function CreditCard(props) {
           value={props.cvv}
           onChange={props.handleChange}
         />
-        <button onClick={props.goToSummary}>Checkout</button>
+        <br/>
+        <button onClick={props.goToSummary}>Review Order</button>
       </form>
     </div>
   )
 }
 function Summary(props) {
-  return <h1>This is where the summary is</h1>
+  return (
+    <div>
+      <h1>Order Summary</h1>
+      <h2>Hello, {props.state.username}, here is a summary of your purchase:</h2>
+      <br/>
+      Your order will ship to:
+      <br/>
+      {props.state.address1}
+      {props.state.address2}
+      <br/>
+      {props.state.city}, {props.state.state} {props.state.zip}
+      <br/>
+      <br/>
+      If your order appears correct, complete your order.
+      <br/>
+      <button onClick={props.postToDB}>Complete Order</button>
+    </div>
+  )
 }
 
 let components = ['Checkout', 'Account', 'Shipping', 'CreditCard', 'Summary']
@@ -147,6 +176,7 @@ class App extends React.Component {
     this.goToCreditCard = this.goToCreditCard.bind(this);
     this.goToSummary = this.goToSummary.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.postToDB = this.postToDB.bind(this);
   }
   goToAccount(e) {
     e.preventDefault();
@@ -179,6 +209,33 @@ class App extends React.Component {
 
   handleChange(e) {
     this.setState({[e.target.name]: e.target.value});
+  }
+
+  postToDB(e) {
+    e.preventDefault();
+    $.ajax({
+      method: 'POST',
+      url: '/order',
+      data: this.state
+    }).done((res) => {
+      console.log('ajax success', res)
+      this.setState({
+        currView: 'Checkout',
+        username: '',
+        email: '',
+        password: '',
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        zip: '',
+        creditCard: '',
+        exp: '',
+        cvv: ''
+      });
+    }).fail((err) => {
+      console.log('ajax failed: ', err)
+    })
   }
 
   render() {
@@ -225,7 +282,7 @@ class App extends React.Component {
     } else if (this.state.currView === 'Summary') {
       return (
         <div>
-          <Summary/>
+          <Summary postToDB={this.postToDB} state={this.state} />
         </div>
       )
     }
