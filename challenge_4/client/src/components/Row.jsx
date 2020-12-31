@@ -1,11 +1,16 @@
 import React from 'react';
-import Square from './Square';
+import Square from './Square.jsx';
 
-const Row = () => {
+const Row = (props) => {
+  // console.log(props.row)
+  // let mapped =
+  // console.log(mapped)
   return (
-    <div>
-      // Generate 7 squares and assign them proper keys and props
-    </div>
+    <tr>
+      {props.row.map((square, i) => {
+    return <Square key={i} value={square} column={i} updateSquare={props.updateSquare} />
+  })}
+    </tr>
   )
 }
 
