@@ -28,14 +28,15 @@ class App extends React.Component {
       board: initialBoard,
       currentPlayer: 1,
       isWinner: false,
-      message: 'It is Player One\'s turn. Please place a token'
+      message: 'It is Player One\'s turn. Please place a token.'
     })
   }
 
   updateSquare(col) {
     //do stuff
+    debugger
     //can't set state directly. Variable to use to update board.
-    console.log('updateSquare method fired', col)
+    // console.log('updateSquare method fired', col)
 
     let board = this.state.board
     console.log(board)
@@ -50,12 +51,67 @@ class App extends React.Component {
       }
     }//if
 
-    this.checkForWinner(position) ?
-    this.setState({message: `Player ${currentPlayer} won the game!!`}) :
-    this.setState({currentPlayer: this.togglePlayer() })
+    if (this.checkForWinner(position)) {
+      this.setState({isWinner: true, message: `Player ${this.state.currentPlayer} won the game!!`})
+    } else {
+      this.togglePlayer()
+
+    this.setState({message: `It is player ${this.state.currentPlayer}'s turn. Please place a token.`})
+    }
+
+
+    // this.checkForWinner(position) ?
+    // this.setState({message: `Player ${this.state.currentPlayer} won the game!!`}) :
+    // this.togglePlayer()
+
+    // this.setState({message: `It is player ${this.state.currentPlayer}'s turn. Please place a token.`})
   }
 
   checkForWinner(position) {
+    debugger
+    let currentPlayer = this.state.currentPlayer;
+    // console.log(currentPlayer, 'curr')
+    if (this.checkVertical(position, currentPlayer)) {return true}
+    if (this.checkHorizontal(position, currentPlayer)) {return true}
+    if (this.checkBackDiagonal(position, currentPlayer)) {return true}
+    if (this.checkDiagonal(position, currentPlayer)) {return true}
+    return false;
+  }
+
+  checkHorizontal(position, currentPlayer){
+    return false;
+  }
+
+  checkVertical(position, currentPlayer){
+    let count = 1;
+    let row = position[0];
+    let col = position[1];
+    let board = this.state.board;
+    if (row < 5) {
+      debugger
+      do {
+        // console.log('initial row value', row, col);
+        row++;
+        // console.log('value after ++', row, col)
+        // console.log('board that do loop is running:', board)
+        if (board[row][col] == currentPlayer) {
+          count++
+        }
+        if (count === 4) {
+          console.log('Oh look, a winner!!')
+          return true
+        }
+      } while (row < 5)
+    }
+
+    return false;
+  }
+
+  checkDiagonal(position, currentPlayer){
+    return false;
+  }
+
+  checkBackDiagonal(position, currentPlayer){
     return false;
   }
 
