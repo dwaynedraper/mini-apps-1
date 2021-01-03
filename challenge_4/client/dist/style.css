@@ -3,3 +3,17 @@ td {
   width: 100px;
   height: 100px;
 }
+div.red {
+  border: 5px solid rgb(198, 0, 0);
+  background-color: red;
+  border-radius: 50%;
+  width: 98px;
+  height: 98px;
+}
+div.yellow {
+  border: 5px solid rgb(201, 201, 0);
+  background-color: yellow;
+  border-radius: 50%;
+  width: 98px;
+  height: 98px;
+}
