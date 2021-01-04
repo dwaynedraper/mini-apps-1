@@ -60,6 +60,8 @@ class App extends React.Component {
   }
 
   checkForWinner(position) {
+    console.log('beginning this turn\'s check for winner')
+    console.log('---------------------------------------')
     let currentPlayer = this.state.currentPlayer;
     // console.log(currentPlayer, 'curr')
     if (this.checkVertical(position, currentPlayer)) {return true}
@@ -139,13 +141,39 @@ class App extends React.Component {
   }
 
   checkDiagonal(position, currentPlayer) {
-    // let count = 1;
-    // let row = position[0];
-    // let col = position[1];
-    // let orig = [row, col];
-    // console.log('Initial value', row, col)
-    // let board = this.state.board;
-    // console.log('board during diagonal check', board)
+
+    let count = 1;
+    let row = position[0];
+    let col = position[1];
+    let orig = [row, col];
+    console.log('Initial value', row, col)
+    let board = this.state.board;
+    console.log('board during diagonal check', board)
+    while (row > 0 && col > 0) {
+      row--;
+      col--;
+      // console.log('updated value to check', row, col);
+      if (board[row][col] === currentPlayer) {
+        count++;
+        if (count === 4) return true;
+      } else {
+        break;
+      }
+    }
+    row = orig[0];
+    col = orig[1];
+    while (row < 5 && col < 6) {
+      row++;
+      col++;
+      // console.log('updated value to check', row, col);
+      if (board[row][col] === currentPlayer) {
+        count++;
+        if (count === 4) return true;
+      } else {
+        break;
+      }
+    }
+    return false;
     // if (row > 0 && col > 0) {
     //   do {
     //     col--
@@ -184,6 +212,38 @@ class App extends React.Component {
   }
 
   checkBackDiagonal(position, currentPlayer){
+
+    let count = 1;
+    let row = position[0];
+    let col = position[1];
+    let orig = [row, col];
+    console.log('Initial value', row, col)
+    let board = this.state.board;
+    console.log('board during diagonal check', board)
+    while (row < 5 && col > 0) {
+      row++;
+      col--;
+      // console.log('updated value to check', row, col);
+      if (board[row][col] === currentPlayer) {
+        count++;
+        if (count === 4) return true;
+      } else {
+        break;
+      }
+    }
+    row = orig[0];
+    col = orig[1];
+    while (row > 0 && col < 6) {
+      row--;
+      col++;
+      // console.log('updated value to check', row, col);
+      if (board[row][col] === currentPlayer) {
+        count++;
+        if (count === 4) return true;
+      } else {
+        break;
+      }
+    }
     return false;
   }
 
